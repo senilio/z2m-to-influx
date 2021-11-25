@@ -9,6 +9,9 @@ from influxdb import InfluxDBClient
 attributes = ["power", "temperature", "humidity"]
 #################################################
 
+def escape(text):
+    return(text.replace(" ","\ "))
+
 def log(text):
     timestamp = '[{:%Y-%m-%d %H:%M:%S}]'.format(datetime.datetime.now())
     print(f'{timestamp} {text}')
@@ -21,13 +24,15 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(str(mqtt_topic))
 
 def on_message(client, userdata, msg):
-    topic = msg.topic
-    payload = json.loads(msg.payload)
-    for attribute in attributes:
-        if attribute in payload:
-            log(f'{topic} {attribute}={payload[attribute]}')
-            push_to_influx(f'{topic} {attribute}={payload[attribute]}')
+    if msg.payload:
+        topic = msg.topic
+        payload = json.loads(msg.payload)
+        for attribute in attributes:
+            if attribute in payload:
+                log(f'{escape(topic)} {attribute}={payload[attribute]}')
+                push_to_influx(escape(topic) + " " + attribute + "=" + str(payload[attribute]))
 
+###############
 
 # First read environment variables provided by docker
 db_name    = os.environ['INFLUX_DB_NAME']
