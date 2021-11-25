@@ -1,0 +1,13 @@
+version: "3"
+services:
+  z2m-to-influx:
+    restart: unless-stopped
+    image: z2m-to-influx:latest
+    container_name: z2m-to-influx
+    environment:
+      - INFLUX_DB_NAME=dbname
+      - INFLUX_DB_HOST=dbhost
+      - INFLUX_DB_PORT=8086
+      - MQTT_HOST=192.168.0.0
+      - MQTT_PORT=1883
+      - MQTT_TOPIC="zigbee2mqtt/+"
