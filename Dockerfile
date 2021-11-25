@@ -1,5 +1,5 @@
 FROM python:3
 ENV PYTHONUNBUFFERED=1
-ADD mqtt.py /
 RUN pip install influxdb paho-mqtt
+ADD mqtt.py /
 CMD ["python", "-u", "mqtt.py"]
