@@ -5,9 +5,9 @@ services:
     image: z2m-to-influx:latest
     container_name: z2m-to-influx
     environment:
-      - INFLUX_DB_NAME=dbname
-      - INFLUX_DB_HOST=dbhost
+      - INFLUX_DB_NAME=mydb
+      - INFLUX_DB_HOST=192.168.0.123
       - INFLUX_DB_PORT=8086
-      - MQTT_HOST=192.168.0.0
+      - MQTT_HOST=192.168.0.124
       - MQTT_PORT=1883
-      - MQTT_TOPIC="zigbee2mqtt/+"
+      - MQTT_TOPIC=zigbee2mqtt/+
